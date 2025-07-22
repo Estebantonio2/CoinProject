@@ -1,5 +1,6 @@
 package com.plcoding.cryptotracker.crypto.data.networking
 
+import com.plcoding.cryptotracker.BuildConfig
 import com.plcoding.cryptotracker.core.data.networking.constructUrl
 import com.plcoding.cryptotracker.core.data.networking.safeCall
 import com.plcoding.cryptotracker.core.domain.util.NetworkError
@@ -18,7 +19,7 @@ class RemoteCoinDataSource(
     override suspend fun getCoins(): Result<List<Coin>, NetworkError> {
         return safeCall<CoinsResponseDto> {
             httpClient.get(
-                urlString = constructUrl("/assets")
+                urlString = constructUrl("/assets?apiKey=${BuildConfig.API_KEY}")
             )
         }.map { response ->
             response.data.map {
